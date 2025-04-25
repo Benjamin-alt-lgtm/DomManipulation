@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>studentRegister</title>
 </head>
+
 <body>
     <h1>Student Register</h1>
-    <div id = "student-container"></div>
+    <div id="student-container"></div>
     <h2> student class</h2>
-    <div id = "class container"></div>
+    <div id="class-container"></div>
     <h2>Student grade</h2>
-    <div id ="student-grade"></div>
+    <div id="student-grade"></div>
     <script>
         //array of student 
         let students = [
@@ -41,29 +43,43 @@
         let number = 1;
 
         students.forEach((student) => {
-        studentHTML += `<tr><td>${number++}.</td><td>${student.name}</td><td>${student.class}</td><td>${student.score}</td></tr>`;
+            studentHTML += `<tr><td>${number++}.</td><td>${student.name}</td><td>${student.class}</td><td>${student.score}</td></tr>`;
         });
 
         studentHTML += "</table><hr>";
 
         studentContainer.innerHTML += studentHTML
 
-
-        //GET STUDENT BY CLASS
-        let classContainer = document.querySelector("#class-container");
+        // Find class container
+        let classContainer = document.querySelector('#class-container');
         
+       //using map to group classes
+        const classes = [...new Set(students.map(student => student.class))];
+     
+       
         classes.forEach(className => {
-    // Create a div for this class
-        let classDiv = document.createElement("div");
-        classDiv.innerHTML = `<h3>${className}</h3><hr>`;
-        })
+            const classStudents = students.filter(student => student.class === className);
 
-        let studentClass = students.filter(student => student.class === className)
-        // let studentClass2 = students.filter(student => student.class === 'JSS2')
-        // let studentClass3 = students.filter(student => student.class === 'JSS3')
-        studentContainer.innerHTML += studentClass1
+            // Create a heading for the class
+            let classTitle = document.createElement('h3');
+            classTitle.innerText = className;
+            classContainer.appendChild(classTitle);
+           
 
+            // Create a table for the class
+            let classHTML = "<table><tr><th>SN</th><th>Name</th><th>Score</th></tr>";
+            let classNumber = 1;
+
+            classStudents.forEach(student => {
+                classHTML += `<tr><td>${classNumber++}.</td><td>${student.name}</td><td>${student.score}</td></tr>`;
+            });
+
+            classHTML += "</table><hr>";
+            classContainer.innerHTML += classHTML;
+        });
+        
     </script>
-    
+
 </body>
+
 </html>
